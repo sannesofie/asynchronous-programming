@@ -36,7 +36,7 @@ const exercise5_cb_3 = () => {
   clearTimeout(intervalId);
   arr.push('almost done!');
 };
-setTimeout(exercise5_cb_3, _);
+setTimeout(exercise5_cb_3, 150);
 
 const exercise5_cb_4 = () => {
   const sum = arr.reduce((sum, next) => sum + next, 0);

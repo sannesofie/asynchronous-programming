@@ -15,39 +15,39 @@ const handleResponse = (res) => {
 };
 
 const createSummary = (user) => {
-  // write me!
+  return `${user.id}: ${user.name}, ${user.city}, ${user.companyName}`;
 };
+
 
 const handleError = (err) => error(err);
 
 // --- use the callbacks ---
 
 log('fetching and processing user 5');
-/*  {
-      name: 'Chelsey Dietrich',
-      city: 'Roscoeview',
-      companyName: 'Keebler LLC'
-    } */
-__;
+fetchUserById(5)
+  .then(handleResponse)
+  .then(createSummary)
+  .then(log)
+  .catch(handleError);
 
-log('fetching and processing user 1');
-/*  {
-      name: 'Leanne Graham',
-      city: 'Gwenborough',
-      companyName: 'Romaguera-Crona',
-    } */
-__;
+  log('fetching and processing user 5');
+fetchUserById(5)
+  .then(handleResponse)
+  .then(createSummary)
+  .then(log)
+  .catch(handleError);
+
 
 log('fetching and processing user 10');
-/*  {
-      name: 'Clementina DuBuque',
-      city: 'Lebsackbury',
-      companyName: 'Hoeger LLC',
-    } */
-__;
+fetchUserById(10)
+  .then(handleResponse)
+  .then(createSummary)
+  .then(log)
+  .catch(handleError);
 
 log('fetching and processing user -1');
 // 404
-__;
+fetchUserById(-1)
+.catch(handleError);
 
 log('= = = =  the call stack is empty  = = = =');
