@@ -12,7 +12,7 @@ const { log, error } = labeledLogger();
     1. there can be random network errors that cause the fetch to fail
     2. there may be an error in the API's server that's out of your control
     3. you don't know how long it will take for the data to come back to you
-    4. fetching data return a response object wrapped in a promise
+    4. fetching data returns a response object wrapped in a promise
     5. you need to parse the API response's data into a JS object
 
   fetchUserById is a function that behaves a little like fetching from an API:
