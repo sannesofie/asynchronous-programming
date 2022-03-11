@@ -8,6 +8,21 @@ const { log } = labeledLogger();
  *
  * @async
  */
+
+
+
+/**
+ * Fetches user by id and resolves in user contact info.
+ *
+ * @async
+ * @param {number} [id=1] - The user id to fetch.
+ * @returns {Promise<array>} A prromise that resolves to user's contact info (email, phone number and website) in an arrray of strings.
+ *
+ * @throws {Error} {status number}: {status text}
+ */
+
+const contactInfo = async (id = 1) => {
+
 const contactInfo = async () => {};
 
 describe("contactInfo returns a specific user's contact info", () => {
