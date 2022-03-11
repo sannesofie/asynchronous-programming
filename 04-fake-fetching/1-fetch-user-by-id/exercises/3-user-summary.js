@@ -15,8 +15,15 @@ const handleResponse = (res) => {
 };
 
 const createSummary = (user) => {
-  return `${user.id}: ${user.name}, ${user.city}, ${user.companyName}`;
+  const userSummary = {
+    name: user.name,
+    city: user.address.city,
+    companyName: user.company.name,
+  };
+  return userSummary;
+  // write me!
 };
+
 
 
 const handleError = (err) => error(err);
@@ -26,14 +33,14 @@ const handleError = (err) => error(err);
 log('fetching and processing user 5');
 fetchUserById(5)
   .then(handleResponse)
-  .then(createSummary)
+  .then(userSummary)
   .then(log)
   .catch(handleError);
 
   log('fetching and processing user 5');
 fetchUserById(5)
   .then(handleResponse)
-  .then(createSummary)
+  .then(userSummary)
   .then(log)
   .catch(handleError);
 
@@ -41,7 +48,7 @@ fetchUserById(5)
 log('fetching and processing user 10');
 fetchUserById(10)
   .then(handleResponse)
-  .then(createSummary)
+  .then(userSummary)
   .then(log)
   .catch(handleError);
 
