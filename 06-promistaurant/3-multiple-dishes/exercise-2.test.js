@@ -35,9 +35,64 @@ import {
  *  Complete the following code so that the test passes
  */
 
-_;
+const preparedExtras = Promise.all(
+  [
+    extras.egg,
+    extras.redPepper,
+    extras.onion,
+    extras.pineapple,
+    extras.egg,
+    extras.mushrooms,
+    extras.pineapple,
+    extras.broccoli,
+  ].map((e) => prepareExtra(e)),
+);
+const lindaPrep = preparePortion(sizes.small, bases.riceNoodles)
+  .then((meal) => addVegetables(meal))
+  .then((meal) => addTopping(meal, toppings.chicken))
+  .then((meal) => addSauce(meal, sauces.youWok));
 
-const theOrder = _;
+const monicaPrep = preparePortion(sizes.medium, bases.whiteRice)
+  .then((meal) => addVegetables(meal))
+  .then((meal) => addTopping(meal, toppings.shrimps))
+  .then((meal) => addSauce(meal, sauces.soya));
+
+const ninaPrep = preparePortion(sizes.large, bases.riceNoodles)
+  .then((meal) => addVegetables(meal))
+  .then((meal) => addTopping(meal, toppings.shrimps))
+  .then((meal) => addSauce(meal, sauces.sweetSour));
+
+const oliviaPrep = preparePortion(sizes.large, bases.riceNoodles)
+  .then((meal) => addVegetables(meal))
+  .then((meal) => addTopping(meal, toppings.calamari))
+  .then((meal) => addSauce(meal, sauces.thai));
+
+const theOrder = Promise.all([
+  lindaPrep,
+  monicaPrep,
+  ninaPrep,
+  oliviaPrep,
+  preparedExtras,
+])
+  .then(
+    ([
+      lmeal,
+      mmeal,
+      nmeal,
+      omeal,
+      [egg, redPepper, onion, pineapple, egg2, mushrooms, pineapple2, broccoli],
+    ]) =>
+      Promise.all([
+        addPreparedExtras(lmeal, [egg, redPepper, onion]),
+        addPreparedExtras(mmeal, [pineapple]),
+        addPreparedExtras(nmeal, []),
+        addPreparedExtras(omeal, [egg2, mushrooms, pineapple2, broccoli]),
+      ]),
+  )
+  .then(([lmeal, mmeal, nmeal, omeal]) =>
+    Promise.all([bag(lmeal), bag(mmeal), bag(nmeal), bag(omeal)]),
+  );
+
 
 theOrder
   .then(([lindasMeal, monicasMeal, ninasMeal, oliviasMeal]) => {
