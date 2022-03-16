@@ -63,3 +63,4 @@ describe('findGeoCoordinates: returns an array of user coordinates', () => {
 });
 
 console.log('= = = =  the call stack is empty  = = = =')};
+
