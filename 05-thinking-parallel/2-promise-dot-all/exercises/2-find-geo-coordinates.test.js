@@ -32,7 +32,7 @@ const findGeoCoordinates = async (ids = []) => {
   }));
   return coordinates
 
-// --- --- tests --- ---
+// -- --- tests --- --
 
 describe('findGeoCoordinates: returns an array of user coordinates', () => {
   it('finds coordinates for 6', async () => {
