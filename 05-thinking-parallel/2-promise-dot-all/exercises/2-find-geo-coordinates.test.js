@@ -24,9 +24,7 @@ import { fetchUserById } from '../../../lib/fetch-user-by-id/index.js';
     lng: user.address.geo.lng
   }));
   return coordinates;
-  
-};
-
+    
 // --- --- tests --- ---
 
 describe('findGeoCoordinates: returns an array of user coordinates', () => {
