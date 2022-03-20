@@ -11,28 +11,31 @@ import { fetchUserById } from '../../../lib/fetch-user-by-id/index.js';
  */
 
 const findGeoCoordinates = async (ids = []) => {
-  const responsePromises = ids.map((nextId) => fetchUserById(nextId));
-
-  const responses = await Promise.all(responsePromises);
-
-  for (const res of responses) {
-    if (!res.ok) {
-      throw new Error(`${res.status}: ${res.statusText}`);
+  const responsePromise = ids.map((id) => {
+    return fetchUserById(id);
+  });
+  try {
+    const responses = await Promise.all(responsePromise);
+    for (const res of responses) {
+      if (!res.ok) {
+        throw new Error(`${res.status}: ${res.statusText}`);
+      }
     }
+    const usersPromise = responses.map((user) => {
+      return user.json();
+    });
+    const users = await Promise.all(usersPromise);
+    const userGeos = users.map((user) => {
+      return { lat: user.address.geo.lat, lng: user.address.geo.lng };
+    });
+    return userGeos;
+  } catch(error) {
+    console.log(error);
+    throw new Error(error);
   }
+};
 
-  const userPromises = responses.map((response) => response.json());
-  const users = await Promise.all(userPromises);
-
-  console.log(users);
-
-  const coordinates = users.map((user) => ({
-    lat: user.address.geo.lat, 
-    lng: user.address.geo.lng
-  }));
-  return coordinates
-
-// -- --- tests --- --
+// --- --- tests --- ---
 
 describe('findGeoCoordinates: returns an array of user coordinates', () => {
   it('finds coordinates for 6', async () => {
@@ -62,5 +65,4 @@ describe('findGeoCoordinates: returns an array of user coordinates', () => {
   });
 });
 
-console.log('= = = =  the call stack is empty  = = = =')};
-
+console.log('= = = =  the call stack is empty  = = = =');
