@@ -24,8 +24,6 @@ const createSummary = (user) => {
   // write me!
 };
 
-
-
 const handleError = (err) => error(err);
 
 // --- use the callbacks ---
@@ -37,13 +35,12 @@ fetchUserById(5)
   .then(log)
   .catch(handleError);
 
-  log('fetching and processing user 5');
+log('fetching and processing user 5');
 fetchUserById(5)
   .then(handleResponse)
   .then(userSummary)
   .then(log)
   .catch(handleError);
-
 
 log('fetching and processing user 10');
 fetchUserById(10)
@@ -54,7 +51,6 @@ fetchUserById(10)
 
 log('fetching and processing user -1');
 // 404
-fetchUserById(-1)
-.catch(handleError);
+fetchUserById(-1).catch(handleError);
 
 log('= = = =  the call stack is empty  = = = =');

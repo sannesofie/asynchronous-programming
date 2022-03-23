@@ -3,9 +3,42 @@ import { fetchUserById } from '../../../lib/fetch-user-by-id/index.js';
 // --- declare function ---
 
 /**
+ * Fetches users by their ids and returns their name, city and company.
  *
+ * @async
+ * @param {array} [ids = []] - The array of user ids to fetch.
+ * returns {Promise<array>} - An array of objects for the users' names, cities and companies.
+ *
+ * @throws {Error} {status}: {text}
  */
-const createSummaries = async (ids = []) => {};
+
+const createSummaries = async (ids = []) => {
+  const responsePromises = ids.map((id) => {
+    return fetchUserById(id);
+  });
+  try {
+    const responses = await Promise.all(responsePromises);
+    for (const res of responses) {
+      if (!res.ok) {
+        throw new Error(`${res.status}: ${res.statusText}`);
+      }
+    }
+    const usersPromises = responses.map((res) => {
+      return res.json();
+    });
+    const users = await Promise.all(usersPromises);
+    const usersSummaries = users.map((user) => {
+      return {
+        name: user.name,
+        city: user.address.city,
+        companyName: user.company.name,
+      };
+    });
+    return usersSummaries;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 
 // --- --- tests --- ---
 

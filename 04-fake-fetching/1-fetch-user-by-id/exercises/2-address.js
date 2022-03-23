@@ -36,7 +36,7 @@ fetchUserById(8)
   .then(handleResponse)
   .then(getAddress)
   .then(log)
-  .catch(handleError);;
+  .catch(handleError);
 
 log('fetching and processing user 2');
 // "2: Victor Plains, Wisokyburgh 90566-7771"
@@ -52,6 +52,6 @@ fetchUserById(0)
   .then(handleResponse)
   .then(getAddress)
   .then(log)
-  .catch(handleError);;
+  .catch(handleError);
 
 log('= = = =  the call stack is empty  = = = =');
