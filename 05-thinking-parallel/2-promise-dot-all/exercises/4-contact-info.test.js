@@ -1,9 +1,38 @@
 import { fetchUserById } from '../../../lib/fetch-user-by-id/index.js';
 
 /**
+ * Fetches users by their ids and returns their email, phone number and website on a string.
  *
+ * @async
+ * @param {array} [ids = []] - The array of user ids to fetch.
+ * @returns {Promise<array>} - An array of strings with the users' email, phone number and website.
+ *
+ * @throws {Error} {status}: {text}
  */
-const contactDetails = async (ids = []) => {};
+
+const contactDetails = async (ids = []) => {
+  try {
+    const responsePromises = ids.map((id) => {
+      return fetchUserById(id);
+    });
+    const responses = await Promise.all(responsePromises);
+    responses.map((response) => {
+      if (!response.ok) {
+        throw new Error(`${response.status}: ${response.statusText}`);
+      }
+    });
+    const usersPromises = responses.map((response) => {
+      return response.json();
+    });
+    const users = await Promise.all(usersPromises);
+    const userContacts = users.map((user) => {
+      return `${user.id}. ${user.email}, ${user.phone}, ${user.website}`;
+    });
+    return userContacts;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 
 // --- --- tests --- ---
 
@@ -12,7 +41,7 @@ describe('contactDetails: returns an array of user contact details', () => {
     it('finds contact details for user 5', async () => {
       const actual = await contactDetails([5]);
       expect(actual).toEqual([
-        '5: Lucio_Hettinger@annie.ca, (254)954-1289, demarco.info',
+        '5. Lucio_Hettinger@annie.ca, (254)954-1289, demarco.info',
       ]);
     });
     it('finds contact details for users 6, 1, 2', async () => {

@@ -48,7 +48,6 @@ fetchUserById(7)
 
 log('fetching and processing user 12 (there are only 10 users!)');
 // 404
-fetchUserById(12)
-.catch(handleError);
+fetchUserById(12).catch(handleError);
 
 log('= = = =  the call stack is empty  = = = =');

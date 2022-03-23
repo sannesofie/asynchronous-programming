@@ -25,8 +25,7 @@ const getIntros = async (ids = []) => {
     return `${user.id}: Hello, my name is ${user.name}`;
   });
   return intros;
-}; 
-
+};
 
 // --- --- tests --- ---
 

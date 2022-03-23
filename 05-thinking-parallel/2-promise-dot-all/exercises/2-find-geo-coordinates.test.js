@@ -1,30 +1,40 @@
 import { fetchUserById } from '../../../lib/fetch-user-by-id/index.js';
 
 /**
+ * Fetches users by their ids and returns their geo location coordinates
  *
+ * @async
+ * @param {array} [ids = []] - The array of user ids to fetch.
+ * @returns {Promise<array>} - An array of objects for the user's longitude and latitude coordinates.
+ *
+ * @throws {Error} {status}: {text}
  */
-  const findGeoCoordinates = async (ids = []) => {
-  const responsePromises = ids.map((nextId) => fetchUserById(nextId));
 
-  const responses = await Promise.all(responsePromises);
-
-  for (const res of responses) {
-    if (!res.ok) {
-      throw new Error(`${res.status}: ${res.statusText}`);
+const findGeoCoordinates = async (ids = []) => {
+  const responsePromise = ids.map((id) => {
+    return fetchUserById(id);
+  });
+  try {
+    const responses = await Promise.all(responsePromise);
+    for (const res of responses) {
+      if (!res.ok) {
+        throw new Error(`${res.status}: ${res.statusText}`);
+      }
     }
+    const usersPromise = responses.map((user) => {
+      return user.json();
+    });
+    const users = await Promise.all(usersPromise);
+    const userGeos = users.map((user) => {
+      return { lat: user.address.geo.lat, lng: user.address.geo.lng };
+    });
+    return userGeos;
+  } catch(error) {
+    console.log(error);
+    throw new Error(error);
   }
+};
 
-  const userPromises = responses.map((response) => response.json());
-  const users = await Promise.all(userPromises);
-
-  console.log(users);
-
-  const coordinates = users.map((user) => ({
-    lat: user.address.geo.lat, 
-    lng: user.address.geo.lng
-  }));
-  return coordinates;
-    
 // --- --- tests --- ---
 
 describe('findGeoCoordinates: returns an array of user coordinates', () => {
